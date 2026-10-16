@@ -1,0 +1,71 @@
+manifest:
+  version: 1.2
+  defaults:
+    remote: cormoran
+    revision: main
+  remotes:
+    - name: cormoran
+      url-base: https://github.com/cormoran
+    - name: zmkfirmware
+      url-base: https://github.com/zmkfirmware
+    - name: tokyo2006
+      url-base: https://github.com/tokyo2006
+    - name: a741725193
+      url-base: https://github.com/a741725193
+
+  projects:
+    - name: zmk
+      remote: cormoran
+      revision: main+dya
+      import: app/west.yml
+      clone-depth: 1
+    - name: zephyr
+      remote: tokyo2006
+      revision: v4.1.0+zmk-fixes+nrf-half-duplex-uart+zmk-backports
+      clone-depth: 1
+      import:
+        name-blocklist:
+          - ci-tools
+          - hal_altera
+          - hal_cypress
+          - hal_infineon
+          - hal_microchip
+          - hal_nxp
+          - hal_openisa
+          - hal_xtensa
+          - hal_st
+          - hal_ti
+          - loramac-node
+          - mcuboot
+          - mcumgr
+          - net-tools
+          - openthread
+          - edtt
+          - trusted-firmware-m
+          - chre
+
+    # ---- ZMK 4.1 DYA feature modules ----
+    - name: cirque-input-module
+      remote: tokyo2006
+      revision: feat/dya-studio-rpc
+    - name: zmk-behavior-runtime-sensor-rotate
+    - name: zmk-module-ble-management
+    - name: zmk-module-battery-history
+    - name: zmk-module-settings-rpc
+    - name: zmk-feature-custom-settings
+    - name: zmk-feature-fast-keymap
+    - name: zmk-feature-device-info
+    - name: zmk-feature-watchdog
+    - name: zmk-feature-input-stream
+    - name: zmk-feature-module-physical-layout
+    - name: zmk-feature-default-layer
+      revision: codex/custom-rpc-rewrite
+    - name: zmk-feature-os-detection
+    - name: zmk-feature-runtime-macro
+      import: true
+    - name: zmk-feature-runtime-combo
+      import: true
+    - name: zmk-feature-kscan-diagnostics
+    - name: zmk-board-eyelash
+      remote: a741725193
+      revision: v4.0

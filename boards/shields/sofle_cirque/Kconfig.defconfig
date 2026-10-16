@@ -1,0 +1,27 @@
+
+if SHIELD_SOFLE_CIRQUE_RIGHT
+
+config ZMK_KEYBOARD_NAME
+	default "sofle_cirque"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+	default y
+
+endif
+
+if SHIELD_SOFLE_CIRQUE_LEFT || SHIELD_SOFLE_CIRQUE_RIGHT
+
+config ZMK_SPLIT
+	default y
+
+endif
+
+if ZMK_BACKLIGHT
+
+config PWM
+    default y
+
+config LED_PWM
+    default y
+
+endif # ZMK_BACKLIGHT

@@ -1,0 +1,12 @@
+file_format: "1"
+id: sofle_cirque
+name: sofle_cirque
+type: shield
+url: https://github.com/tokyo2006/zmk-config-test
+features:
+  - keys
+  - pointer
+  - underglow
+siblings:
+  - sofle_cirque_left
+  - sofle_cirque_right
