@@ -45,9 +45,9 @@ manifest:
           - chre
 
     # ---- ZMK 4.1 DYA feature modules ----
-    - name: tps43-input-module
+    - name: cirque-input-module
       remote: tokyo2006
-      revision: main
+      revision: feat/dya-studio-rpc
     - name: zmk-behavior-runtime-sensor-rotate
     - name: zmk-module-ble-management
     - name: zmk-module-battery-history
