@@ -12,6 +12,8 @@ manifest:
       url-base: https://github.com/tokyo2006
     - name: a741725193
       url-base: https://github.com/a741725193
+    - name: aym1607
+      url-base: https://github.com/AYM1607
 
   projects:
     - name: zmk
@@ -45,9 +47,9 @@ manifest:
           - chre
 
     # ---- ZMK 4.1 DYA feature modules ----
-    - name: cirque-input-module
-      remote: tokyo2006
-      revision: feat/dya-studio-rpc
+    - name: zmk-driver-azoteq-iqs5xx
+      remote: aym1607
+      revision: main
     - name: zmk-behavior-runtime-sensor-rotate
     - name: zmk-module-ble-management
     - name: zmk-module-battery-history

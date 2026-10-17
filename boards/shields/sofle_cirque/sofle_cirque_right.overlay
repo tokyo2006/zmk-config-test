@@ -9,7 +9,7 @@
 #include "sofle_cirque.dtsi"
 
 #include "rgb.dtsi"
-#include "cirque.dtsi"
+#include "azoteq.dtsi"
 
 / {
     chosen {
