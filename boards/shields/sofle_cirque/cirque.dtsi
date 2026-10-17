@@ -41,6 +41,12 @@
         data-mode = "absolute";
         startup-delay-ms = <1500>;
         primary-tap-enable;
+        absolute-tap-click-ms = <30>;
+        absolute-secondary-tap-area-width = <500>;
+        absolute-secondary-tap-area-height = <400>;
+        absolute-right-edge-scroll-enable;
+        absolute-scroll-zone = <150>;
+        absolute-scroll-divisor = <16>;
     };
 };
 
