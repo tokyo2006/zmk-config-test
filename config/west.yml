@@ -47,7 +47,6 @@ manifest:
     # ---- ZMK 4.1 DYA feature modules ----
     - name: cirque-input-module
       remote: tokyo2006
-      revision: feat/dya-studio-rpc
     - name: zmk-behavior-runtime-sensor-rotate
     - name: zmk-module-ble-management
     - name: zmk-module-battery-history

@@ -21,7 +21,7 @@ Sofle 分体键盘 + Cirque Pinnacle 触控板的 ZMK 配置（支持 DYA Studio
 ## DYA Studio
 
 - ZMK 使用 `cormoran/zmk#main+dya` 分支 + 全套 `zmk-feature-*` 模块。
-- Cirque 触控板驱动用 `tokyo2006/cirque-input-module`（`feat/dya-studio-rpc` 分支），
+- Cirque 触控板驱动用 `tokyo2006/cirque-input-module`（`main` 分支），
   提供 `tokyo2006__cirque` Studio RPC 子系统，可在线改触控板状态。
 - 连接 <https://studio.dya.cormoran.works/>，按 `&studio_unlock` 后出现 **Cirque** 标签页。
 

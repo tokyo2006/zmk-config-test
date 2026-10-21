@@ -43,12 +43,27 @@
         absolute-touch-min-z = <12>;
         absolute-relative-multiplier = <3>;
         absolute-relative-divisor = <10>;
-        absolute-tap-click-ms = <30>;
+        /*
+         * Tap tuning. Active range defaults to x 128..1920 (width 1792) and
+         * y 64..1472 (height 1408), so 1 unit ~= 20 um on a 35 mm pad.
+         *  - tap-max-movement 150 (was default 80): a normal fingertip roll is
+         *    more than 80 units, which used to cancel the tap, and made the
+         *    second tap of a double-click fall into tap-drag territory.
+         *  - tap-click-ms 50 (was 30): 30 ms press/release is easy for a host
+         *    to coalesce, especially over BLE, and the second click of a
+         *    double-click would get lost.
+         */
+        absolute-tap-max-ms = <250>;
+        absolute-tap-max-movement = <150>;
+        absolute-tap-click-ms = <50>;
         absolute-tap-drag-enable;
         absolute-tap-drag-timeout-ms = <300>;
-        absolute-tap-drag-max-movement = <160>;
-        absolute-secondary-tap-area-width = <520>;
-        absolute-secondary-tap-area-height = <420>;
+        /* Must be >= tap-max-movement, otherwise the second tap of a
+         * double-click is not accepted as a nearby tap for tap-drag. */
+        absolute-tap-drag-max-movement = <200>;
+        /* Lower-right corner = secondary (right) click, ~36% x 37% of the pad. */
+        absolute-secondary-tap-area-width = <640>;
+        absolute-secondary-tap-area-height = <520>;
         absolute-aux-tap-area-width = <0>;
         absolute-aux-tap-area-height = <0>;
         absolute-edge-motion-enable;
@@ -56,13 +71,16 @@
         absolute-edge-motion-speed = <4>;
         absolute-edge-motion-interval-ms = <10>;
         absolute-edge-motion-start-ms = <120>;
+        /* Right-edge scroll. The touch must *start* inside this zone; 130 was
+         * only ~7% of the pad (~2.5 mm), which is very hard to hit. 300 is
+         * ~17% (~6 mm). Divisor 60 = 1 wheel tick per 60 units. */
         absolute-right-edge-scroll-enable;
-        absolute-scroll-zone = <130>;
-        absolute-scroll-divisor = <80>;
+        absolute-scroll-zone = <300>;
+        absolute-scroll-divisor = <60>;
         startup-delay-ms = <1500>;
         primary-tap-enable;
-        glide-extend-enable;
-        invert-y;
+        /* invert-y and glide-extend-enable are relative-mode only; they are
+         * no-ops here because this node runs data-mode = "absolute". */
     };
 };
 
