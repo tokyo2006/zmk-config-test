@@ -40,18 +40,25 @@
         sensitivity = "2x";
         data-mode = "absolute";
         idle-packets-count = <3>;
-        absolute-touch-min-z = <12>;
+        absolute-touch-min-z = <8>;
         absolute-relative-multiplier = <3>;
         absolute-relative-divisor = <10>;
         /*
-         * Tap tuning. Active range defaults to x 128..1920 (width 1792) and
-         * y 64..1472 (height 1408), so 1 unit ~= 20 um on a 35 mm pad.
-         *  - tap-max-movement 150 (was default 80): a normal fingertip roll is
-         *    more than 80 units, which used to cancel the tap, and made the
-         *    second tap of a double-click fall into tap-drag territory.
-         *  - tap-click-ms 50 (was 30): 30 ms press/release is easy for a host
-         *    to coalesce, especially over BLE, and the second click of a
-         *    double-click would get lost.
+         * TM035035 datasheet (v1.2) geometry:
+         *   - Pinnacle absolute grid 0..2048 x 0..1536
+         *   - clipped active range 128..1920 x 64..1472
+         *   - the 31 mm circular sensing area is the ellipse inscribed in that
+         *     range (Figure 6), so the reachable rim at 4-6 o'clock has a
+         *     smaller x than the rectangle corner.
+         *
+         * Tap tuning (values are coordinate units; X ~57.8 units/mm,
+         * Y ~45.4 units/mm on this 31 mm sensor):
+         *  - touch-min-z 8 (was 12): the outermost electrodes couple weaker,
+         *    so rim touches were being treated as "no touch" and the scroll
+         *    latch kept resetting.
+         *  - tap-max-movement 150 keeps rim taps working without making the
+         *    pointer feel sticky.
+         *  - tap-click-ms 50 so a host cannot coalesce the press/release pair.
          */
         absolute-tap-max-ms = <250>;
         absolute-tap-max-movement = <150>;
@@ -61,9 +68,14 @@
         /* Must be >= tap-max-movement, otherwise the second tap of a
          * double-click is not accepted as a nearby tap for tap-drag. */
         absolute-tap-drag-max-movement = <200>;
-        /* Lower-right corner = secondary (right) click, ~36% x 37% of the pad. */
-        absolute-secondary-tap-area-width = <640>;
-        absolute-secondary-tap-area-height = <520>;
+        /*
+         * Secondary (right) click: bottom-right of the ellipse, covering
+         * roughly 4:00-5:40. Normalized bounds are x >= 10.7% and
+         * y >= 30.4% of the semi-axes, which keeps 6 o'clock (bottom centre)
+         * on the primary button while making the 5 o'clock rim reliable.
+         */
+        absolute-secondary-tap-area-width = <800>;
+        absolute-secondary-tap-area-height = <490>;
         absolute-aux-tap-area-width = <0>;
         absolute-aux-tap-area-height = <0>;
         absolute-edge-motion-enable;
@@ -71,12 +83,18 @@
         absolute-edge-motion-speed = <4>;
         absolute-edge-motion-interval-ms = <10>;
         absolute-edge-motion-start-ms = <120>;
-        /* Right-edge scroll. The touch must *start* inside this zone; 130 was
-         * only ~7% of the pad (~2.5 mm), which is very hard to hit. 300 is
-         * ~17% (~6 mm). Divisor 60 = 1 wheel tick per 60 units. */
+        /*
+         * Right-edge scroll, elliptical ring latch. A touch that starts in the
+         * outer 30% of the radius on the right side locks vertical scrolling;
+         * this covers the rim from ~1:00 to ~5:20 including 5 o'clock, where
+         * the rectangular band (threshold x = 1492) never fired.
+         * absolute-scroll-zone stays as the legacy fallback and the divisor
+         * controls speed: 1 wheel tick per 50 coordinate units.
+         */
         absolute-right-edge-scroll-enable;
+        absolute-edge-scroll-ring-percent = <70>;
         absolute-scroll-zone = <300>;
-        absolute-scroll-divisor = <60>;
+        absolute-scroll-divisor = <50>;
         startup-delay-ms = <1500>;
         primary-tap-enable;
         /* invert-y and glide-extend-enable are relative-mode only; they are
