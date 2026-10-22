@@ -130,8 +130,25 @@
 };
 
 / {
+    /*
+     * Runtime pointer speed. Without a processor in the listener chain the
+     * "Pointer Speed" slider only writes to a global that nothing reads, so
+     * every position feels identical. 50 = 1x, 0 = 10%, 100 = 400%.
+     */
+    trackpad_pointer_speed: trackpad_pointer_speed {
+        compatible = "zmk,input-processor-pointer-speed";
+        #input-processor-cells = <2>;
+        track-remainders;
+        one-x-multiplier = <1>;
+        one-x-divisor = <1>;
+        min-percent = <10>;
+        max-percent = <400>;
+        initial-speed-position = <50>;
+    };
+
     trackpad_input: trackpad_input {
         compatible = "zmk,input-listener";
         device = <&trackpad>;
+        input-processors = <&trackpad_pointer_speed 0 0>;
     };
 };
