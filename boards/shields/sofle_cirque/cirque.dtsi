@@ -41,6 +41,18 @@
         data-mode = "absolute";
         idle-packets-count = <3>;
         absolute-touch-min-z = <4>;
+        /*
+         * Measured usable area. The TM035035 is a 35 mm module with a 31 mm
+         * sensing area and this housing loses a little more, so the outer
+         * ~15% of the grid is dead: taps on the visible rim produce no touch
+         * event at all, and the outermost reachable samples sit around
+         * 70-78% of the default range. Shrink the active range by 15% around
+         * the centre so 100% means "the edge you can actually touch".
+         */
+        active-range-x-min = <262>;
+        active-range-x-max = <1786>;
+        active-range-y-min = <170>;
+        active-range-y-max = <1366>;
         absolute-relative-multiplier = <3>;
         absolute-relative-divisor = <10>;
         /*
@@ -99,7 +111,7 @@
          * Divisor 50 = 1 wheel tick per 50 coordinate units (~0.9 mm).
          */
         absolute-right-edge-scroll-enable;
-        absolute-edge-scroll-ring-percent = <60>;
+        absolute-edge-scroll-ring-percent = <70>;
         absolute-scroll-zone = <300>;
         absolute-scroll-divisor = <50>;
         /* Datasheet recommendation: clip noisy coordinates to the active
