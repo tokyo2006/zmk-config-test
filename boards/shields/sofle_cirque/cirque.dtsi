@@ -56,12 +56,12 @@
          *  - touch-min-z 8 (was 12): the outermost electrodes couple weaker,
          *    so rim touches were being treated as "no touch" and the scroll
          *    latch kept resetting.
-         *  - tap-max-movement 150 keeps rim taps working without making the
-         *    pointer feel sticky.
+         *  - tap-max-movement 180 (1.5x the original 120): a thumb tap at the
+         *    rim rolls a couple of millimetres, so 150 still dropped taps.
          *  - tap-click-ms 50 so a host cannot coalesce the press/release pair.
          */
         absolute-tap-max-ms = <250>;
-        absolute-tap-max-movement = <150>;
+        absolute-tap-max-movement = <180>;
         absolute-tap-click-ms = <50>;
         absolute-tap-drag-enable;
         absolute-tap-drag-timeout-ms = <300>;
@@ -69,15 +69,19 @@
          * double-click is not accepted as a nearby tap for tap-drag. */
         absolute-tap-drag-max-movement = <200>;
         /*
-         * Secondary (right) click: bottom-right of the ellipse. The feedback
-         * from the 800x490 build was that the zone reached 6 o'clock, so pull
-         * the x boundary back to 1300 (5.9 mm right of centre) and the y
-         * boundary to 1042 (3.9 mm below centre). That keeps 5 o'clock
-         * (1472, 1378) and 4:30 (1657, 1265) while excluding the bottom
-         * centre.
+         * Secondary (right) click on a round pad: use the angular wedge
+         * instead of a rectangle. 35..85 degrees measured from 3 o'clock
+         * towards 6 o'clock covers 4:00-5:40 and follows the rim at any
+         * radius, so 5 o'clock triggers reliably while 6 o'clock (90 deg)
+         * and 3 o'clock (0 deg) stay on the primary button. The centre 30%
+         * of the pad is excluded.
          */
-        absolute-secondary-tap-area-width = <620>;
-        absolute-secondary-tap-area-height = <430>;
+        absolute-secondary-tap-wedge-enable;
+        absolute-secondary-tap-min-slope-milli = <700>;   /* tan(35 deg) */
+        absolute-secondary-tap-max-slope-milli = <11430>; /* tan(85 deg) */
+        /* Rectangle path, unused while the wedge is enabled. */
+        /* absolute-secondary-tap-area-width = <620>; */
+        /* absolute-secondary-tap-area-height = <430>; */
         absolute-aux-tap-area-width = <0>;
         absolute-aux-tap-area-height = <0>;
         /* Edge motion is off for now: it moves the pointer while the finger
@@ -88,15 +92,14 @@
         /* absolute-edge-motion-interval-ms = <10>; */
         /* absolute-edge-motion-start-ms = <120>; */
         /*
-         * Right-edge scroll, elliptical ring latch. 68 = the outer 32% of the
-         * radius (~5 mm on the 31 mm sensor). 55 (~7 mm) made a rim touchdown
-         * far too easy to hit while aiming for the pointer, and 70 (~4.7 mm)
-         * was too thin. The latch is also deferred until the stroke is
-         * vertical-dominant, so a sideways swipe never becomes a wheel tick.
+         * Right-edge scroll, elliptical ring latch. 60 = the outer 40% of the
+         * radius (~6.2 mm on the 31 mm sensor). The latch is deferred until
+         * the stroke is vertical-dominant (dy >= 2/3 dx), so a wider ring no
+         * longer turns sideways strokes into wheel ticks.
          * Divisor 50 = 1 wheel tick per 50 coordinate units (~0.9 mm).
          */
         absolute-right-edge-scroll-enable;
-        absolute-edge-scroll-ring-percent = <68>;
+        absolute-edge-scroll-ring-percent = <60>;
         absolute-scroll-zone = <300>;
         absolute-scroll-divisor = <50>;
         /* Datasheet recommendation: clip noisy coordinates to the active
