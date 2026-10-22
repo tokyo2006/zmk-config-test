@@ -88,14 +88,15 @@
         /* absolute-edge-motion-interval-ms = <10>; */
         /* absolute-edge-motion-start-ms = <120>; */
         /*
-         * Right-edge scroll, elliptical ring latch. 55 = the outer 45% of the
-         * radius (~7 mm on the 31 mm sensor), which is where a thumb actually
-         * lands; 70 (~4.7 mm) turned out to be too thin to catch a normal
-         * touchdown. absolute-scroll-zone stays as the legacy fallback.
+         * Right-edge scroll, elliptical ring latch. 68 = the outer 32% of the
+         * radius (~5 mm on the 31 mm sensor). 55 (~7 mm) made a rim touchdown
+         * far too easy to hit while aiming for the pointer, and 70 (~4.7 mm)
+         * was too thin. The latch is also deferred until the stroke is
+         * vertical-dominant, so a sideways swipe never becomes a wheel tick.
          * Divisor 50 = 1 wheel tick per 50 coordinate units (~0.9 mm).
          */
         absolute-right-edge-scroll-enable;
-        absolute-edge-scroll-ring-percent = <55>;
+        absolute-edge-scroll-ring-percent = <68>;
         absolute-scroll-zone = <300>;
         absolute-scroll-divisor = <50>;
         /* Datasheet recommendation: clip noisy coordinates to the active
