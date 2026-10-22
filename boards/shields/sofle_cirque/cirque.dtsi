@@ -81,16 +81,17 @@
          * double-click is not accepted as a nearby tap for tap-drag. */
         absolute-tap-drag-max-movement = <200>;
         /*
-         * Secondary (right) click on a round pad: use the angular wedge
-         * instead of a rectangle. 35..85 degrees measured from 3 o'clock
-         * towards 6 o'clock covers 4:00-5:40 and follows the rim at any
-         * radius, so 5 o'clock triggers reliably while 6 o'clock (90 deg)
-         * and 3 o'clock (0 deg) stay on the primary button. The centre 30%
-         * of the pad is excluded.
+         * Secondary (right) click on a round pad: angular wedge instead of a
+         * rectangle. Calibrated against the measured frame on this unit:
+         * the thumb cluster sits ~20 degrees off the sensor axes, so the
+         * physical 5 o'clock lands at ~46 deg and the physical 6 o'clock at
+         * ~65-69 deg. 30..55 degrees therefore covers "5 o'clock" while the
+         * bottom centre and the right side stay on the primary button. The
+         * centre 30% of the radius is excluded.
          */
         absolute-secondary-tap-wedge-enable;
-        absolute-secondary-tap-min-slope-milli = <700>;   /* tan(35 deg) */
-        absolute-secondary-tap-max-slope-milli = <11430>; /* tan(85 deg) */
+        absolute-secondary-tap-min-slope-milli = <577>;   /* tan(30 deg) */
+        absolute-secondary-tap-max-slope-milli = <1428>;  /* tan(55 deg) */
         /* Rectangle path, unused while the wedge is enabled. */
         /* absolute-secondary-tap-area-width = <620>; */
         /* absolute-secondary-tap-area-height = <430>; */
