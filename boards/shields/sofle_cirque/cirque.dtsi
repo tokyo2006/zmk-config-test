@@ -105,6 +105,9 @@
         /* Datasheet recommendation: clip noisy coordinates to the active
          * range so rim samples cannot fall outside 128..1920 / 64..1472. */
         clipping-enable;
+        /* Bring-up instrumentation: log x/y/z and normalized nx/ny on every
+         * touch down (visible in DYA Studio -> Devtool). */
+        absolute-touch-log-enable;
         startup-delay-ms = <1500>;
         primary-tap-enable;
         /* invert-y and glide-extend-enable are relative-mode only; they are
