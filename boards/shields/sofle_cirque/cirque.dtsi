@@ -90,8 +90,9 @@
          * centre 30% of the radius is excluded.
          */
         absolute-secondary-tap-wedge-enable;
-        absolute-secondary-tap-min-slope-milli = <577>;   /* tan(30 deg) */
-        absolute-secondary-tap-max-slope-milli = <1428>;  /* tan(55 deg) */
+        /* Centre is calibration (thumb-cluster rotation), width is tunable. */
+        absolute-secondary-tap-center-deg = <425>;  /* 42.5 deg */
+        absolute-secondary-tap-width-deg = <250>;   /* 25 deg -> 30..55 */
         /* Rectangle path, unused while the wedge is enabled. */
         /* absolute-secondary-tap-area-width = <620>; */
         /* absolute-secondary-tap-area-height = <430>; */
