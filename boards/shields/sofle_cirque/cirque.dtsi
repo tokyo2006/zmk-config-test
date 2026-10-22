@@ -69,32 +69,38 @@
          * double-click is not accepted as a nearby tap for tap-drag. */
         absolute-tap-drag-max-movement = <200>;
         /*
-         * Secondary (right) click: bottom-right of the ellipse, covering
-         * roughly 4:00-5:40. Normalized bounds are x >= 10.7% and
-         * y >= 30.4% of the semi-axes, which keeps 6 o'clock (bottom centre)
-         * on the primary button while making the 5 o'clock rim reliable.
+         * Secondary (right) click: bottom-right of the ellipse. The feedback
+         * from the 800x490 build was that the zone reached 6 o'clock, so pull
+         * the x boundary back to 1300 (5.9 mm right of centre) and the y
+         * boundary to 1042 (3.9 mm below centre). That keeps 5 o'clock
+         * (1472, 1378) and 4:30 (1657, 1265) while excluding the bottom
+         * centre.
          */
-        absolute-secondary-tap-area-width = <800>;
-        absolute-secondary-tap-area-height = <490>;
+        absolute-secondary-tap-area-width = <620>;
+        absolute-secondary-tap-area-height = <430>;
         absolute-aux-tap-area-width = <0>;
         absolute-aux-tap-area-height = <0>;
-        absolute-edge-motion-enable;
-        absolute-edge-motion-zone = <80>;
-        absolute-edge-motion-speed = <4>;
-        absolute-edge-motion-interval-ms = <10>;
-        absolute-edge-motion-start-ms = <120>;
+        /* Edge motion is off for now: it moves the pointer while the finger
+         * rests at the rim, which masks and confuses edge-scroll testing. */
+        /* absolute-edge-motion-enable; */
+        /* absolute-edge-motion-zone = <80>; */
+        /* absolute-edge-motion-speed = <4>; */
+        /* absolute-edge-motion-interval-ms = <10>; */
+        /* absolute-edge-motion-start-ms = <120>; */
         /*
-         * Right-edge scroll, elliptical ring latch. A touch that starts in the
-         * outer 30% of the radius on the right side locks vertical scrolling;
-         * this covers the rim from ~1:00 to ~5:20 including 5 o'clock, where
-         * the rectangular band (threshold x = 1492) never fired.
-         * absolute-scroll-zone stays as the legacy fallback and the divisor
-         * controls speed: 1 wheel tick per 50 coordinate units.
+         * Right-edge scroll, elliptical ring latch. 55 = the outer 45% of the
+         * radius (~7 mm on the 31 mm sensor), which is where a thumb actually
+         * lands; 70 (~4.7 mm) turned out to be too thin to catch a normal
+         * touchdown. absolute-scroll-zone stays as the legacy fallback.
+         * Divisor 50 = 1 wheel tick per 50 coordinate units (~0.9 mm).
          */
         absolute-right-edge-scroll-enable;
-        absolute-edge-scroll-ring-percent = <70>;
+        absolute-edge-scroll-ring-percent = <55>;
         absolute-scroll-zone = <300>;
         absolute-scroll-divisor = <50>;
+        /* Datasheet recommendation: clip noisy coordinates to the active
+         * range so rim samples cannot fall outside 128..1920 / 64..1472. */
+        clipping-enable;
         startup-delay-ms = <1500>;
         primary-tap-enable;
         /* invert-y and glide-extend-enable are relative-mode only; they are
