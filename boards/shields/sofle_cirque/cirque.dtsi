@@ -65,11 +65,10 @@
          *
          * Tap tuning (values are coordinate units; X ~57.8 units/mm,
          * Y ~45.4 units/mm on this 31 mm sensor):
-         *  - touch-min-z 8 (was 12): the outermost electrodes couple weaker,
-         *    so rim touches were being treated as "no touch" and the scroll
-         *    latch kept resetting.
-         *  - tap-max-movement 180 (1.5x the original 120): a thumb tap at the
-         *    rim rolls a couple of millimetres, so 150 still dropped taps.
+         *  - touch-min-z 4: the outermost electrodes couple weaker, so rim
+         *    touches were being treated as "no touch".
+         *  - tap-max-movement 180: a thumb tap at the rim rolls a couple of
+         *    millimetres, so a tighter value dropped taps.
          *  - tap-click-ms 50 so a host cannot coalesce the press/release pair.
          */
         absolute-tap-max-ms = <250>;
@@ -96,26 +95,28 @@
         /* Rectangle path, unused while the wedge is enabled. */
         /* absolute-secondary-tap-area-width = <620>; */
         /* absolute-secondary-tap-area-height = <430>; */
-        absolute-aux-tap-area-width = <0>;
-        absolute-aux-tap-area-height = <0>;
-        /* Edge motion is off for now: it moves the pointer while the finger
-         * rests at the rim, which masks and confuses edge-scroll testing. */
-        /* absolute-edge-motion-enable; */
-        /* absolute-edge-motion-zone = <80>; */
-        /* absolute-edge-motion-speed = <4>; */
-        /* absolute-edge-motion-interval-ms = <10>; */
-        /* absolute-edge-motion-start-ms = <120>; */
+        /* Upper-left aux (middle-click) zone, ~400 x 400 units. */
+        absolute-aux-tap-area-width = <400>;
+        absolute-aux-tap-area-height = <400>;
+        /* Edge motion: keep the pointer moving while the finger rests at the
+         * rim (user preference). */
+        absolute-edge-motion-enable;
+        absolute-edge-motion-zone = <120>;
+        absolute-edge-motion-speed = <4>;
+        absolute-edge-motion-interval-ms = <10>;
+        absolute-edge-motion-start-ms = <120>;
         /*
-         * Right-edge scroll, elliptical ring latch. 60 = the outer 40% of the
-         * radius (~6.2 mm on the 31 mm sensor). The latch is deferred until
-         * the stroke is vertical-dominant (dy >= 2/3 dx), so a wider ring no
-         * longer turns sideways strokes into wheel ticks.
-         * Divisor 50 = 1 wheel tick per 50 coordinate units (~0.9 mm).
+         * Edge scroll. The latch is an elliptical ring: 70 = the outer 30% of
+         * the radius. A touch that starts in the ring only becomes a scroll
+         * once the stroke runs along that edge, so sideways strokes on the
+         * right band (or vertical strokes on the top band) stay pointer moves.
+         * Divisor 64 = 1 wheel tick per 64 coordinate units.
          */
         absolute-right-edge-scroll-enable;
+        absolute-top-edge-scroll-enable;
         absolute-edge-scroll-ring-percent = <70>;
         absolute-scroll-zone = <300>;
-        absolute-scroll-divisor = <50>;
+        absolute-scroll-divisor = <64>;
         /* Datasheet recommendation: clip noisy coordinates to the active
          * range so rim samples cannot fall outside 128..1920 / 64..1472. */
         clipping-enable;
@@ -143,7 +144,7 @@
         one-x-divisor = <1>;
         min-percent = <10>;
         max-percent = <400>;
-        initial-speed-position = <50>;
+        initial-speed-position = <70>;
     };
 
     trackpad_input: trackpad_input {
