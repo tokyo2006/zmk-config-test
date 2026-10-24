@@ -58,6 +58,7 @@ manifest:
     - name: zmk-feature-watchdog
     - name: zmk-module-devtool
     - name: zmk-feature-input-stream
+    - name: zmk-module-runtime-input-processor
     - name: zmk-feature-module-physical-layout
     - name: zmk-feature-default-layer
       revision: codex/custom-rpc-rewrite

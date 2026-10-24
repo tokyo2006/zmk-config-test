@@ -5,6 +5,9 @@
  *       RDY = P1.07 (active-high).
  */
 
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+#include <input/processors/runtime-input-processor.dtsi>
+
 &pinctrl {
     i2c0_default: i2c0_default {
         group1 {
@@ -43,8 +46,20 @@
 };
 
 / {
+    /*
+     * Runtime input processor: what DYA Studio's Trackpad page drives from its
+     * "Runtime pointer speed" card (the card only appears when this subsystem
+     * is in the firmware). Without a processor in the listener chain, pointer
+     * speed has nothing to act on and every position feels identical.
+     * `mouse_runtime_input_processor` is the module's zero-cell default
+     * (scale 1/1); speed and rotation are then tunable at runtime. Wheel
+     * events from the driver pass through untouched: they are not one of this
+     * processor's X/Y codes, and attaching the module's 1/60 scroll processor
+     * here would divide already-scaled wheel steps into nothing.
+     */
     tps43_input: tps43_input {
         compatible = "zmk,input-listener";
         device = <&tps43>;
+        input-processors = <&mouse_runtime_input_processor>;
     };
 };
