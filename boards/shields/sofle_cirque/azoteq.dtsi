@@ -52,14 +52,19 @@
      * is in the firmware). Without a processor in the listener chain, pointer
      * speed has nothing to act on and every position feels identical.
      * `mouse_runtime_input_processor` is the module's zero-cell default
-     * (scale 1/1); speed and rotation are then tunable at runtime. Wheel
-     * events from the driver pass through untouched: they are not one of this
-     * processor's X/Y codes, and attaching the module's 1/60 scroll processor
-     * here would divide already-scaled wheel steps into nothing.
+     * (scale 1/1); speed and rotation are then tunable at runtime.
+     * The scroll processor is also in the chain so DYA Studio can expose a
+     * scroll-speed slider. Its module default is 1/60, but the driver already
+     * divides wheel steps by scroll_div; override it to 1/1 here.
      */
     tps43_input: tps43_input {
         compatible = "zmk,input-listener";
         device = <&tps43>;
-        input-processors = <&mouse_runtime_input_processor>;
+        input-processors = <&mouse_runtime_input_processor &scroll_runtime_input_processor>;
     };
+};
+
+&scroll_runtime_input_processor {
+    scale-multiplier = <1>;
+    scale-divisor = <1>;
 };
