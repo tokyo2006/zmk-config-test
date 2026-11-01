@@ -18,6 +18,25 @@ Sofle 分体键盘 + Cirque Pinnacle 触控板的 ZMK 配置（支持 DYA Studio
 
 复位由驱动通过 I2C 软复位完成，无需专用复位引脚。
 
+### PSP 摇杆（右半 / central）
+
+| 信号 | 引脚 |
+|------|------|
+| X    | P0.04 (AIN2) |
+| Y    | P0.05 (AIN3) |
+| VCC  | 3.3V |
+| GND  | GND |
+
+右半启用 `tokyo2006/zmk-driver-psp-joystick-with-custom-studio-rpc`：
+- X/Y 接到 `P0.04` / `P0.05`（ADC channel 2/3）
+- 默认作为鼠标指针（`zmk,input-listener`）
+- 运行时通过 `tokyo2006__psp_joystick` Studio RPC 调参/校准
+  （当前模块没有专用网页 UI，可使用通用 RPC 面板）
+- 左半不启用，模块保持 inert
+
+摇杆电位器请与 MCU 使用同一路 3.3V 供电；nRF52840 使用
+`ADC_GAIN_1_6` + 内部 0.6V 参考，满量程约 3.6V。
+
 ## DYA Studio
 
 - ZMK 使用 `cormoran/zmk#main+dya` 分支 + 全套 `zmk-feature-*` 模块。

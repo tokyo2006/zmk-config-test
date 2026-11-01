@@ -70,3 +70,6 @@ manifest:
     - name: zmk-board-eyelash
       remote: a741725193
       revision: v4.0
+    - name: zmk-driver-psp-joystick-with-custom-studio-rpc
+      remote: tokyo2006
+      revision: main
