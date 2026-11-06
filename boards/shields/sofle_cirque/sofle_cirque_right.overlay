@@ -128,11 +128,11 @@
         /*
          * Center is the midpoint of the left/right rest positions (1797 and
          * 2043). The stick has ~250 counts of direction-dependent rest
-         * hysteresis; a 12% deadzone covers both sides. Auto-center and
+         * hysteresis; a 15% deadzone covers both sides. Auto-center and
          * auto-recenter are off so the center does not chase one side and
          * make the other side drift.
          */
-        deadzone-percent = <12>;
+        deadzone-percent = <15>;
         center-x = <1920>;
         center-y = <1850>;
         min-x = <653>;

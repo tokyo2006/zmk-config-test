@@ -45,7 +45,7 @@
         io-channels = <&adc 3>, <&adc 4>;
         io-channel-names = "x", "y";
 
-        deadzone-percent = <12>;
+        deadzone-percent = <15>;
         center-x = <1920>;
         center-y = <1850>;
         min-x = <653>;
