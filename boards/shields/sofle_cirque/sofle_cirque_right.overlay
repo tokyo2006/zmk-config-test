@@ -7,6 +7,7 @@
 #include <dt-bindings/led/led.h>
 #include <zephyr/dt-bindings/adc/adc.h>
 #include <zephyr/dt-bindings/adc/nrf-adc.h>
+#include <zephyr/dt-bindings/input/input-event-codes.h>
 #include <behaviors/battery_history_request.dtsi>
 #include "sofle_cirque.dtsi"
 
@@ -145,10 +146,22 @@
         curve-exponent-x100 = <100>;
         smoothing-percent = <10>;
         invert-y;
+        arrow-mode = <0>;
+        arrow-threshold-percent = <50>;
+    };
+
+    input_processors {
+        psp_arrow_behaviors: psp_arrow_behaviors {
+            compatible = "zmk,input-processor-behaviors";
+            #input-processor-cells = <0>;
+            codes = <INPUT_KEY_UP INPUT_KEY_DOWN INPUT_KEY_LEFT INPUT_KEY_RIGHT>;
+            bindings = <&kp UP &kp DOWN &kp LEFT &kp RIGHT>;
+        };
     };
 
     psp_joystick_listener: psp_joystick_listener {
         compatible = "zmk,input-listener";
         device = <&psp_joystick>;
+        input-processors = <&psp_arrow_behaviors>;
     };
 };
