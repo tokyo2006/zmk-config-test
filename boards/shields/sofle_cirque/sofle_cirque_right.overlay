@@ -149,6 +149,7 @@
         invert-y;
         arrow-mode = <0>;
         arrow-threshold-percent = <50>;
+        arrow-layer = <1>;
     };
 
     input_processors {
