@@ -20,8 +20,8 @@ manifest:
       import: app/west.yml
       clone-depth: 1
     - name: zephyr
-      remote: tokyo2006
-      revision: v4.1.0+zmk-fixes+nrf-half-duplex-uart+zmk-backports
+      remote: cormoran
+      revision: v4.1.0+zmk-fixes+nrf-half-duplex-uart
       clone-depth: 1
       import:
         name-blocklist:
