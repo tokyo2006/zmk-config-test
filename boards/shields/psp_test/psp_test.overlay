@@ -1,0 +1,82 @@
+/*
+ * Bare dev-board test shield: PSP joystick only.
+ *
+ * No matrix, trackpad, RGB, backlight or split. All unspecified IOs stay
+ * floating, so this is safe to flash on an eyelash_nano/nice!nano dev board
+ * with only the joystick wired.
+ *
+ * X = P0.05 (AIN3), Y = P0.28 (AIN4), VCC = 3.3V, GND = GND.
+ */
+
+#include <physical_layouts.dtsi>
+#include <dt-bindings/zmk/matrix_transform.h>
+#include <zephyr/dt-bindings/adc/adc.h>
+#include <zephyr/dt-bindings/adc/nrf-adc.h>
+
+/ {
+    chosen {
+        zmk,kscan = &kscan0;
+        zmk,physical-layout = &physical_layout_psp_test;
+    };
+
+    /* One dummy key on a free pin, so ZMK has a valid kscan/keymap. */
+    kscan0: kscan {
+        compatible = "zmk,kscan-gpio-direct";
+        wakeup-source;
+        input-gpios = <&gpio1 0 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+    };
+
+    default_transform: keymap_transform_0 {
+        compatible = "zmk,matrix-transform";
+        rows = <1>;
+        columns = <1>;
+        map = <RC(0,0)>;
+    };
+
+    physical_layout_psp_test: physical_layout_psp_test {
+        compatible = "zmk,physical-layout";
+        transform = <&default_transform>;
+        display-name = "PSP Test";
+        keys = <&key_physical_attrs 100 100 0 0 0 0 0>;
+    };
+
+    psp_joystick: psp_joystick {
+        compatible = "tokyo2006,psp-joystick";
+        io-channels = <&adc 3>, <&adc 4>;
+        io-channel-names = "x", "y";
+
+        deadzone-percent = <8>;
+        max-speed = <24>;
+        curve-exponent-x100 = <100>;
+        smoothing-percent = <10>;
+    };
+
+    psp_joystick_listener: psp_joystick_listener {
+        compatible = "zmk,input-listener";
+        device = <&psp_joystick>;
+    };
+};
+
+&adc {
+    status = "okay";
+    #address-cells = <1>;
+    #size-cells = <0>;
+
+    channel@3 {
+        reg = <3>;
+        zephyr,gain = "ADC_GAIN_1_6";
+        zephyr,reference = "ADC_REF_INTERNAL";
+        zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+        zephyr,input-positive = <NRF_SAADC_AIN3>;
+        zephyr,resolution = <12>;
+    };
+
+    channel@4 {
+        reg = <4>;
+        zephyr,gain = "ADC_GAIN_1_6";
+        zephyr,reference = "ADC_REF_INTERNAL";
+        zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+        zephyr,input-positive = <NRF_SAADC_AIN4>;
+        zephyr,resolution = <12>;
+    };
+};

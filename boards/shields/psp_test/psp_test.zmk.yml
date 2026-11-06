@@ -1,0 +1,10 @@
+file_format: "1"
+id: psp_test
+name: psp_test
+type: shield
+url: https://github.com/tokyo2006/zmk-config-test
+requires:
+  - board: eyelash_nano
+features:
+  - keys
+  - pointer

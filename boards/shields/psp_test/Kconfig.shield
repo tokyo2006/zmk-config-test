@@ -1,0 +1,2 @@
+config SHIELD_PSP_TEST
+    def_bool $(shields_list_contains,psp_test)
