@@ -72,4 +72,4 @@ manifest:
       revision: v4.0
     - name: zmk-driver-psp-joystick-with-custom-studio-rpc
       remote: tokyo2006
-      revision: main
+      revision: fix/dedicated-workqueue
