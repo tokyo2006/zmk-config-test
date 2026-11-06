@@ -46,6 +46,8 @@
         io-channel-names = "x", "y";
 
         deadzone-percent = <8>;
+        min-x = <653>;
+        max-x = <3280>;
         max-speed = <24>;
         curve-exponent-x100 = <100>;
         smoothing-percent = <10>;
