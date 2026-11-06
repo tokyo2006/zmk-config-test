@@ -45,15 +45,19 @@
         io-channels = <&adc 3>, <&adc 4>;
         io-channel-names = "x", "y";
 
-        deadzone-percent = <8>;
+        deadzone-percent = <12>;
+        center-x = <1920>;
+        center-y = <1850>;
         min-x = <653>;
         max-x = <3280>;
+        min-y = <653>;
+        max-y = <3280>;
+        auto-center = <0>;
+        auto-recenter = <0>;
         max-speed = <24>;
         curve-exponent-x100 = <100>;
         smoothing-percent = <10>;
         invert-y;
-        auto-recenter = <1>;
-        auto-recenter-ms = <1000>;
     };
 
     psp_joystick_listener: psp_joystick_listener {

@@ -126,18 +126,25 @@
         io-channel-names = "x", "y";
 
         /*
-         * Initial tuning. These values can be changed at runtime through the
-         * tokyo2006__psp_joystick Studio RPC subsystem.
+         * Center is the midpoint of the left/right rest positions (1797 and
+         * 2043). The stick has ~250 counts of direction-dependent rest
+         * hysteresis; a 12% deadzone covers both sides. Auto-center and
+         * auto-recenter are off so the center does not chase one side and
+         * make the other side drift.
          */
-        deadzone-percent = <8>;
+        deadzone-percent = <12>;
+        center-x = <1920>;
+        center-y = <1850>;
         min-x = <653>;
         max-x = <3280>;
+        min-y = <653>;
+        max-y = <3280>;
+        auto-center = <0>;
+        auto-recenter = <0>;
         max-speed = <24>;
         curve-exponent-x100 = <100>;
         smoothing-percent = <10>;
         invert-y;
-        auto-recenter = <1>;
-        auto-recenter-ms = <1000>;
     };
 
     psp_joystick_listener: psp_joystick_listener {
