@@ -22,13 +22,22 @@ Sofle 分体键盘 + Cirque Pinnacle 触控板的 ZMK 配置（支持 DYA Studio
 
 | 信号 | 引脚 |
 |------|------|
-| X    | P0.04 (AIN2) |
-| Y    | P0.05 (AIN3) |
+| X    | P0.05 (AIN3) |
+| Y    | P0.28 (AIN4，从矩阵列 5 腾出) |
 | VCC  | 3.3V |
 | GND  | GND |
 
+这块板子没有引出 P0.04 (AIN2) 和 P0.31 (AIN7)，所以只有一个空闲 ADC 脚
+P0.05。为了得到第二个模拟输入，把右半矩阵的**第 6 列（col 5）**从
+`P0.28` 挪到了 `P0.17`（原 OLED MOSI 焊盘，sofle_cirque 不用屏幕，该脚空闲），
+从而把 `P0.28 (AIN4)` 让给摇杆 Y。
+
+硬件需要做两处改动：
+1. 断开矩阵第 6 列到 `P0.28` 的走线；
+2. 把该列改接到 `P0.17`（OLED 排针的 MOSI 脚），并把摇杆 Y 接到 `P0.28`。
+
 右半启用 `tokyo2006/zmk-driver-psp-joystick-with-custom-studio-rpc`：
-- X/Y 接到 `P0.04` / `P0.05`（ADC channel 2/3）
+- X/Y 接到 `P0.05` / `P0.28`（ADC channel 3/4）
 - 默认作为鼠标指针（`zmk,input-listener`）
 - 运行时通过 `tokyo2006__psp_joystick` Studio RPC 调参/校准
   （当前模块没有专用网页 UI，可使用通用 RPC 面板）
